@@ -1,0 +1,11 @@
+# exclude files
+bin/
+obj/
+.vs/
+node_modules/
+dist/
+*.db
+.env
+*.db-shm
+*.db-wal
+*.csproj.user
