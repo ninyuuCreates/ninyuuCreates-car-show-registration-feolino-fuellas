@@ -1,10 +1,10 @@
-using Api.Endpoints.Registrations;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.Features.Registrations.CreateRegistration;
 using Application.Features.Registrations.GetRegistrationById;
 using Application.Features.Registrations.GetRegistrations;
 using Application.Features.Registrations.GetRegistrationSummary;
+using Api.Endpoints.Registrations;
 using Domain.Common;
 using FluentValidation;
 using Infrastructure.Persistence;
