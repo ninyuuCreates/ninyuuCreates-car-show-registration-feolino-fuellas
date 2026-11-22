@@ -1,14 +1,15 @@
+using Api.Endpoints.Registrations;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Application.Features.Registrations.CreateRegistration;
+using Application.Features.Registrations.GetRegistrationById;
+using Application.Features.Registrations.GetRegistrations;
+using Application.Features.Registrations.GetRegistrationSummary;
 using Domain.Common;
 using FluentValidation;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using Application.Features.Registrations.CreateRegistration;
-using Application.Features.Registrations.GetRegistrationById;
-using Application.Features.Registrations.GetRegistrations;
-using Application.Features.Registrations.GetRegistrationSummary;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,6 +69,7 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/", () => "Welcome to the Vertical Slice API! Go to /scalar/v1 for API documentation.");
 
 // Map endpoints
+app.MapRegistrationEndpoints();
 // app.Map{FeatureGroup}Endpoints();
 
 app.Run();
