@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getRegistrations, getSummary } from "../api/sample-data";
+import { fetchRegistrations, fetchSummary } from "../api/registrationsApi";
 import { useDebounce } from "../hooks/useDebounce";
 import KpiCards from "../components/KpiCards";
 import RegistrationFilters from "../components/RegistrationFilters";
@@ -26,7 +26,7 @@ export default function RegistrationsPage() {
 
   const loadSummary = useCallback(async () => {
     try {
-      const data = await getSummary();
+      const data = await fetchSummary();
       setSummary(data);
     } catch {
       // Summary error won't block table rendering if needed
@@ -38,7 +38,7 @@ export default function RegistrationsPage() {
     setError("");
 
     try {
-      const data = await getRegistrations({
+      const data = await fetchRegistrations({
         participantName: debouncedSearch,
         type: typeFilter,
         status: statusFilter,
@@ -110,7 +110,7 @@ export default function RegistrationsPage() {
             </h1>
           </div>
           <p className="text-xs text-slate-500">
-            Showing sample data (ready for API integration)
+            Connected to Registrations API
           </p>
         </header>
 
