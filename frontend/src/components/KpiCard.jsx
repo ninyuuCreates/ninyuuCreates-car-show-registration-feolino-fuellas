@@ -1,14 +1,19 @@
-export default function KpiCard({ title, value, subtitle, accentColor = "border-slate-200" }) {
+export default function KpiCard({ title, value, subtitle, icon }) {
   return (
-    <div
-      className={`rounded-xl border border-l-4 ${accentColor} bg-white p-5 shadow-sm transition-shadow hover:shadow-md`}
-    >
-      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-        {title}
-      </p>
-      <p className="mt-2 text-2xl font-bold text-slate-900">{value}</p>
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs transition hover:border-slate-300">
+      <div className="flex items-start justify-between gap-2">
+        <span className="text-xs font-medium text-slate-500">{title}</span>
+        {icon && (
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-slate-600">
+            {icon}
+          </span>
+        )}
+      </div>
+      <div className="mt-2 text-2xl font-bold tracking-tight text-slate-900">
+        {value}
+      </div>
       {subtitle && (
-        <p className="mt-1 text-xs text-slate-500">{subtitle}</p>
+        <p className="mt-1.5 text-xs text-slate-400">{subtitle}</p>
       )}
     </div>
   );

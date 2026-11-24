@@ -1,5 +1,3 @@
-const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
-
 export default function Pagination({
   page,
   pageSize,
@@ -8,68 +6,67 @@ export default function Pagination({
   onPageChange,
   onPageSizeChange,
 }) {
-  if (totalCount === 0) return null;
-
-  const startItem = (page - 1) * pageSize + 1;
+  const safeTotalPages = Math.max(1, totalPages || 1);
+  const startItem = totalCount === 0 ? 0 : (page - 1) * pageSize + 1;
   const endItem = Math.min(page * pageSize, totalCount);
-  const canGoPrev = page > 1;
-  const canGoNext = page < totalPages;
+
+  const pages = Array.from({ length: safeTotalPages }, (_, i) => i + 1);
 
   return (
-    <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm sm:flex-row">
-      {/* Showing X–Y of Z */}
-      <div className="text-xs text-slate-500">
-        Showing{" "}
-        <span className="font-semibold text-slate-800">{startItem}</span>–
-        <span className="font-semibold text-slate-800">{endItem}</span> of{" "}
-        <span className="font-semibold text-slate-800">{totalCount}</span>{" "}
-        registrations
+    <div className="flex flex-col gap-3 border-t border-slate-200 px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          aria-label="Previous page"
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-sm text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          &lt;
+        </button>
+
+        {pages.map((p) => (
+          <button
+            key={p}
+            type="button"
+            onClick={() => onPageChange(p)}
+            className={`flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition ${
+              p === page
+                ? "border-slate-900 bg-slate-900 text-white"
+                : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+            }`}
+          >
+            {p}
+          </button>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= safeTotalPages}
+          aria-label="Next page"
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-sm text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          &gt;
+        </button>
       </div>
 
-      {/* Controls: Page size + Prev / Page X of Y / Next */}
-      <div className="flex flex-wrap items-center gap-4">
-        <label className="flex items-center gap-2 text-xs text-slate-600">
-          <span>Rows per page:</span>
-          <select
-            value={pageSize}
-            onChange={(e) => onPageSizeChange(Number(e.target.value))}
-            className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-          >
-            {PAGE_SIZE_OPTIONS.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </label>
+      <div className="flex items-center gap-4 text-sm text-slate-500">
+        <span>
+          Showing <strong className="font-medium text-slate-800">{startItem}–{endItem}</strong> of{" "}
+          <strong className="font-medium text-slate-800">{totalCount}</strong>
+        </span>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            disabled={!canGoPrev}
-            onClick={() => onPageChange(page - 1)}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Previous
-          </button>
-
-          <span className="px-2 text-xs font-medium text-slate-700">
-            Page <span className="font-semibold text-slate-900">{page}</span>{" "}
-            of{" "}
-            <span className="font-semibold text-slate-900">
-              {Math.max(1, totalPages)}
-            </span>
-          </span>
-
-          <button
-            type="button"
-            disabled={!canGoNext}
-            onClick={() => onPageChange(page + 1)}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Next
-          </button>
-        </div>
+        <select
+          aria-label="Rows per page"
+          value={pageSize}
+          onChange={(e) => onPageSizeChange(Number(e.target.value))}
+          className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-sm text-slate-700 focus:border-slate-500 focus:outline-none"
+        >
+          <option value={5}>5 / page</option>
+          <option value={10}>10 / page</option>
+          <option value={20}>20 / page</option>
+        </select>
       </div>
     </div>
   );

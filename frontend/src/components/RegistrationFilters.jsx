@@ -1,91 +1,79 @@
 export default function RegistrationFilters({
-  searchTerm,
+  search,
   onSearchChange,
-  typeFilter,
+  type,
   onTypeChange,
-  statusFilter,
+  status,
   onStatusChange,
-  onClearFilters,
+  onClear,
 }) {
-  const hasActiveFilters = Boolean(searchTerm || typeFilter || statusFilter);
+  const hasActiveFilters = Boolean(search || type || status);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        {/* Search by Participant Name */}
-        <div className="md:col-span-2">
-          <label
-            htmlFor="participant-search"
-            className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500"
+    <div className="flex flex-col gap-3 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <h2 className="text-base font-semibold text-slate-900">Registrations</h2>
+
+      <div className="flex flex-wrap items-center gap-2.5">
+        <div className="relative min-w-[220px] flex-1 sm:flex-initial">
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
           >
-            Search Participant
-          </label>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z"
+            />
+          </svg>
           <input
-            id="participant-search"
             type="text"
-            value={searchTerm}
+            value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search by participant name..."
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            placeholder="Search participant name..."
+            className="w-full rounded-lg border border-slate-300 bg-white py-1.5 pr-3 pl-9 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none"
           />
         </div>
 
-        {/* Filter by Registration Type */}
-        <div>
-          <label
-            htmlFor="type-filter"
-            className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500"
-          >
-            Registration Type
-          </label>
-          <select
-            id="type-filter"
-            value={typeFilter}
-            onChange={(e) => onTypeChange(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-          >
-            <option value="">All Types</option>
-            <option value="Exhibitor">Exhibitor (₱1,500)</option>
-            <option value="Competitor">Competitor (₱2,500)</option>
-            <option value="VIP">VIP (₱5,000)</option>
-          </select>
-        </div>
+        <select
+          aria-label="Filter by type"
+          value={type}
+          onChange={(e) => onTypeChange(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 focus:border-slate-500 focus:outline-none"
+        >
+          <option value="">Type</option>
+          <option value="Classic">Classic</option>
+          <option value="Modified">Modified</option>
+          <option value="Import">Import</option>
+          <option value="Muscle">Muscle</option>
+          <option value="Supercar">Supercar</option>
+        </select>
 
-        {/* Filter by Registration Status */}
-        <div>
-          <label
-            htmlFor="status-filter"
-            className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500"
-          >
-            Status
-          </label>
-          <select
-            id="status-filter"
-            value={statusFilter}
-            onChange={(e) => onStatusChange(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-          >
-            <option value="">All Statuses</option>
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="CheckedIn">Checked In</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
+        <select
+          aria-label="Filter by status"
+          value={status}
+          onChange={(e) => onStatusChange(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 focus:border-slate-500 focus:outline-none"
+        >
+          <option value="">Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Confirmed">Confirmed</option>
+          <option value="CheckedIn">Checked In</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <button
+          type="button"
+          onClick={onClear}
+          disabled={!hasActiveFilters}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Clear
+        </button>
       </div>
-
-      {/* Clear Filters Button */}
-      {hasActiveFilters && (
-        <div className="mt-3 flex justify-end border-t border-slate-100 pt-3">
-          <button
-            type="button"
-            onClick={onClearFilters}
-            className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
-          >
-            Clear Filters
-          </button>
-        </div>
-      )}
     </div>
   );
 }
