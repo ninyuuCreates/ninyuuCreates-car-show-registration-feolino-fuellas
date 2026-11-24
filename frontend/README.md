@@ -1,16 +1,29 @@
-# React + Vite
+# Car Show 2027 — Registrations & Payments Dashboard (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React + Vite + Tailwind CSS v4 frontend for viewing, searching, filtering, and paginating Car Show 2027 participant registrations and payment summaries.
 
-Currently, two official plugins are available:
+## Tech Stack
+- **React 19** + **Vite**
+- **Tailwind CSS v4** (`@tailwindcss/vite`)
+- **Fetch API** (`src/api/registrationsApi.js`)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Project Structure
+```text
+frontend/
+├── .env.development              # Backend API base URL (VITE_API_BASE_URL)
+└── src/
+    ├── api/
+    │   ├── registrationsApi.js   # Live C# backend API client
+    │   └── sample-data.js        # 25 mock registrations for offline UI testing
+    ├── components/
+    │   ├── KpiCard.jsx           # Reusable metric card
+    │   ├── KpiCards.jsx          # 5-card KPI summary row (PHP formatting)
+    │   ├── Pagination.jsx        # Page controls & rows-per-page selector
+    │   ├── PaymentBadge.jsx      # Unpaid / Partial / Paid badges
+    │   ├── RegistrationFilters.jsx # Debounced search + Type & Status filters
+    │   ├── RegistrationTable.jsx # Responsive registrations table
+    │   └── StatusBadge.jsx       # Pending / Confirmed / CheckedIn / Cancelled badges
+    ├── hooks/
+    │   └── useDebounce.js        # 300ms input debounce hook
+    └── pages/
+        └── RegistrationsPage.jsx # Main dashboard page with loading/empty/error states
