@@ -44,12 +44,10 @@ export default function RegistrationFilters({
           onChange={(e) => onTypeChange(e.target.value)}
           className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 focus:border-slate-500 focus:outline-none"
         >
-          <option value="">Type</option>
-          <option value="Classic">Classic</option>
-          <option value="Modified">Modified</option>
-          <option value="Import">Import</option>
-          <option value="Muscle">Muscle</option>
-          <option value="Supercar">Supercar</option>
+          <option value="">All Types</option>
+          <option value="Exhibitor">Exhibitor</option>
+          <option value="Competitor">Competitor</option>
+          <option value="VIP">VIP</option>
         </select>
 
         <select
