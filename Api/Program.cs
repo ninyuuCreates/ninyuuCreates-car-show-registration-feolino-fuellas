@@ -13,7 +13,22 @@ using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+// CORS
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? [];
 
+var isDevelopment = builder.Environment.IsDevelopment();
+
+builder.Services.AddCors(options =>
+    options.AddPolicy("Frontend", policy =>
+        policy.SetIsOriginAllowed(origin =>
+                allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase) ||
+                (isDevelopment &&
+                 Uri.TryCreate(origin, UriKind.Absolute, out var uri) &&
+                 uri.IsLoopback))
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
 // Database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=carshow.db"));
 builder.Services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
@@ -47,7 +62,8 @@ builder.Services.AddOpenApi(options =>
 });
 
 var app = builder.Build();
-
+// CORS Policy
+app.UseCors("Frontend");
 // Seed data
 using (var scope = app.Services.CreateScope())
 {
